@@ -25,6 +25,8 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 ### Issues specific to Wayland
 
 * Games like Satisfactory lock to 60fps under vsync, even though Wayland and X11 correctly enable freesync. League of Legends runs fine, but it might be locking to 120fps.
+  * Might be caused by multi-monitor
+  * This might help: https://zamundaaa.github.io/wayland/2021/12/14/about-gaming-on-wayland.html
 * Satisfactory crashes on startup in some situations
 * League of Legends prevents Gnome from switching to different desktops
 * Discord does not support streaming an entire screen
