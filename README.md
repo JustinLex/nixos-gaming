@@ -38,4 +38,5 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 * League of legends stutters
 * League of Legends resets display settings, making my secondary monitor go sideways
 * League of legends prevent my mouse from going to my secondary monitor, even when alt-tabbed
+* Alt key gets stuck in League of Legends after alt-tab
 * Discord streaming has high CPU usage (~1 core)
