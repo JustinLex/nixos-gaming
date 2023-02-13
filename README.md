@@ -13,6 +13,8 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 * Gnome settings are much nicer and usable than Windows settings
 * I can install and configure a lot of things through Nix, which makes it easier to maintain my gaming computer
 * Discord notifications actually tell you who messaged
+* Just much less weird background shit running
+* Much less tweaking needed for an optimal experience, no Cortana/ads to disable, no 3rd party junk to install
 
 
 ## Known bugs for Linux gaming
