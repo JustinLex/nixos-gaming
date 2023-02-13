@@ -21,6 +21,7 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 
 * AMD's open-source driver does not support HDMI 2.1 for legal reasons, restricting my LG OLED to 4:2:0 Limited color
 * Linux does not support HDR
+* No GUI for disabling audio devices in Wireplumber as far as I know
 
 ### Issues specific to Wayland
 
