@@ -59,6 +59,18 @@
 
   # Configure console keymap
   console.keyMap = "sv-latin1";
+  
+  fonts.fonts = with pkgs; [ # https://nixos.wiki/wiki/Fonts
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf  
+    fira-code  # FF programming font, better than cascadia code https://medium.com/@oocx/comparing-the-new-cascadia-code-font-to-fira-code-v2-c2c63dd87098
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease  # Japanese font
+    dina-font  # Bitmap font, might be cool
+    proggyfonts  # Another bitmap font
+  ];
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
