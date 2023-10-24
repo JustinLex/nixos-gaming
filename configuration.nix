@@ -14,6 +14,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.systemd-boot.extraEntries = {
+    "ms.conf" = ''
+    title Miblowsoft Wandows
+    efi /EFI/MICROSOFT/BOOT/BOOTMGFW.EFI
+'';
+    "mz.conf" = ''
+    title Memtest86+
+    efi /EFI/memtest86plus/memtest.efi
+''; };
 
   networking.hostName = "nixos-gaming"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -43,13 +52,18 @@
     LC_TIME = "sv_SE.UTF-8";
   };
 
-  # Enable the X11 windowing system. # EDIT: But why?? Is this for xwayland?
+  # Enable the windowing system.
   services.xserver.enable = true;
   # services.xserver.displayManager.gdm.wayland = false;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  
+  # KDE
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.defaultSession = "plasmawayland";
 
   # Configure keymap in X11
   services.xserver = {
@@ -60,18 +74,47 @@
   # Configure console keymap
   console.keyMap = "sv-latin1";
   
-  fonts.fonts = with pkgs; [ # https://nixos.wiki/wiki/Fonts
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf  
-    fira-code  # FF programming font, better than cascadia code https://medium.com/@oocx/comparing-the-new-cascadia-code-font-to-fira-code-v2-c2c63dd87098
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease  # Japanese font
-    dina-font  # Bitmap font, might be cool
-    proggyfonts  # Another bitmap font
-  ];
+  # Temporary fix for fonts in flatpaks https://github.com/NixOS/nixpkgs/issues/119433#issuecomment-1767513263
+  system.fsPackages = [ pkgs.bindfs ];
+  fileSystems = let
+    mkRoSymBind = path: {
+      device = path;
+      fsType = "fuse.bindfs";
+      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+    };
+    aggregatedIcons = pkgs.buildEnv {
+      name = "system-icons";
+      paths = with pkgs; [
+        #libsForQt5.breeze-qt5  # for plasma
+        gnome.gnome-themes-extra
+      ];
+      pathsToLink = [ "/share/icons" ];
+    };
+    aggregatedFonts = pkgs.buildEnv {
+      name = "system-fonts";
+      paths = config.fonts.packages;
+      pathsToLink = [ "/share/fonts" ];
+    };
+  in {
+    "/usr/share/icons" = mkRoSymBind "${aggregatedIcons}/share/icons";
+    "/usr/local/share/fonts" = mkRoSymBind "${aggregatedFonts}/share/fonts";
+  };
 
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [ # https://nixos.wiki/wiki/Fonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code  # FF programming font, better than cascadia code https://medium.com/@oocx/comparing-the-new-cascadia-code-font-to-fira-code-v2-c2c63dd87098
+      fira-code-symbols
+      mplus-outline-fonts.githubRelease  # Japanese font
+      dina-font  # Bitmap font, might be cool
+    ];
+  };
+
+  
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
@@ -127,6 +170,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     htop
+    memtest86plus
+    ark
+    wineWowPackages.staging
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -146,6 +192,9 @@
 
   
   hardware.steam-hardware.enable = true;
+
+  # Needed for bluetooth in KDE https://search.nixos.org/options?channel=22.11&show=hardware.bluetooth.enable&from=0&size=50&sort=relevance&type=packages&query=bluetooth
+  hardware.bluetooth.enable = true;
 
   zramSwap = {
     enable = true;
