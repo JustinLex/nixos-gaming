@@ -153,6 +153,7 @@
       gnomeExtensions.appindicator
       gnomeExtensions.hide-top-bar
       gnomeExtensions.net-speed-simplified
+      xwaylandvideobridge
     ];
   };
 
