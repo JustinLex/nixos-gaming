@@ -22,9 +22,9 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 ### General issues
 
 * ~~AMD's open-source driver does not support HDMI 2.1 for legal reasons, restricting my LG OLED to 4:2:0 Limited color~~
- * Fixed with [DP-HDMI cable](https://www.cablematters.com/pc-1398-154-displayport-to-8k-hdmi-cable.aspx), though I needed to update the tv and the cable seems a bit finnicky.
+  * Fixed with [DP-HDMI cable](https://www.cablematters.com/pc-1398-154-displayport-to-8k-hdmi-cable.aspx), though I needed to update the tv and the cable seems a bit finnicky.
 * Linux does not support HDR
- * Coming soon! https://www.phoronix.com/news/AMD-2022-Linux-HDR-Display-Hard
+  * Coming soon! https://www.phoronix.com/news/AMD-2022-Linux-HDR-Display-Hard
 
 ### Issues specific to Wayland
 
@@ -34,7 +34,7 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 * Satisfactory crashes on startup in some situations
 * League of Legends prevents Gnome from switching to different desktops
 * ~~Discord does not support streaming an entire screen~~
- * Fixed with xwaylandvideobridge
+  * Fixed with xwaylandvideobridge
 
 ### Issues specific to X11
 
