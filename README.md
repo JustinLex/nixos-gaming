@@ -35,6 +35,8 @@ To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configura
 * League of Legends prevents Gnome from switching to different desktops
 * ~~Discord does not support streaming an entire screen~~
   * Fixed with xwaylandvideobridge
+* KDE does not support color profiles, meaning that colors are saturated on wide gamut screens like LG OLEDs
+  * https://pointieststick.com/2023/10/27/these-past-2-weeks-in-kde-wayland-color-management-the-desktop-cube-returns-and-optional-shadows-in-spectacle/
 
 ### Issues specific to X11
 
