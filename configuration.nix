@@ -189,6 +189,7 @@
     wineWowPackages.staging
     wireshark
     cryptsetup
+    comma
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -201,11 +202,6 @@
   programs.git = {
     enable = true;
   };
-
-  programs.steam = {
-    enable = true;
-  };
-
   
   hardware.steam-hardware.enable = true;
 
