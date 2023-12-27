@@ -52,6 +52,12 @@
     LC_TELEPHONE = "sv_SE.UTF-8";
     LC_TIME = "sv_SE.UTF-8";
   };
+  
+  # fix udev for via
+  services.udev.packages = [ pkgs.via ];
+  
+  # Enable SSD TRIM timer https://www.reddit.com/r/NixOS/comments/rbzhb1/if_you_have_a_ssd_dont_forget_to_enable_fstrim/
+  services.fstrim.enable = true;
 
   # Enable the windowing system.
   services.xserver.enable = true;
@@ -143,7 +149,7 @@
   users.users.gamer = {
     isNormalUser = true;
     description = "Gamer Society";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "wireshark" "docker" ];
     packages = with pkgs; [
       firefox
       bitwarden
@@ -154,6 +160,12 @@
       gnomeExtensions.hide-top-bar
       gnomeExtensions.net-speed-simplified
       xwaylandvideobridge
+      r2modman
+      ungoogled-chromium
+      via
+      qmk
+      xonotic
+      rocmPackages.rocm-smi
     ];
   };
 
@@ -175,6 +187,8 @@
     memtest86plus
     ark
     wineWowPackages.staging
+    wireshark
+    cryptsetup
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -211,6 +225,8 @@
 
   services.xserver.excludePackages = [ pkgs.xterm ];  
   services.flatpak.enable = true;
+
+  virtualisation.docker.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
