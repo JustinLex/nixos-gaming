@@ -25,6 +25,8 @@
     efi /EFI/memtest86plus/memtest.efi
 ''; };
 
+  
+
   networking.hostName = "nixos-gaming"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -69,8 +71,8 @@
   
   # KDE
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.defaultSession = "plasmawayland";
+  services.xserver.desktopManager.plasma6.enable = true;
+  services.xserver.displayManager.defaultSession = "plasma";
 
   # Configure keymap in X11
   services.xserver = {
@@ -93,7 +95,7 @@
       name = "system-icons";
       paths = with pkgs; [
         #libsForQt5.breeze-qt5  # for plasma
-        gnome.gnome-themes-extra
+        gnome-themes-extra
       ];
       pathsToLink = [ "/share/icons" ];
     };
@@ -105,13 +107,20 @@
   in {
     "/usr/share/icons" = mkRoSymBind "${aggregatedIcons}/share/icons";
     "/usr/local/share/fonts" = mkRoSymBind "${aggregatedFonts}/share/fonts";
+    
+    # Steam NFS
+    "/gaming" = {
+      device = "nfs.jlh.name:/gaming";
+      fsType = "nfs";
+      options = [ "nfsvers=4.2" ];
+    };
   };
 
   fonts = {
     fontDir.enable = true;
     packages = with pkgs; [ # https://nixos.wiki/wiki/Fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
       fira-code  # FF programming font, better than cascadia code https://medium.com/@oocx/comparing-the-new-cascadia-code-font-to-fira-code-v2-c2c63dd87098
@@ -126,7 +135,6 @@
   # services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -153,9 +161,8 @@
     packages = with pkgs; [
       firefox
       bitwarden
-      lutris
-      gnome.gnome-tweaks
-      gnome.gnome-shell-extensions
+      gnome-tweaks
+      gnome-shell-extensions
       gnomeExtensions.appindicator
       gnomeExtensions.hide-top-bar
       gnomeExtensions.net-speed-simplified
@@ -166,6 +173,8 @@
       qmk
       xonotic
       rocmPackages.rocm-smi
+      jellyfin-mpv-shim
+      mpv
     ];
   };
 
@@ -190,6 +199,7 @@
     wireshark
     cryptsetup
     comma
+    gamescope
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -221,6 +231,15 @@
 
   services.xserver.excludePackages = [ pkgs.xterm ];  
   services.flatpak.enable = true;
+
+hardware.opengl = { # enable 32 bit drivers
+  driSupport32Bit = true;
+};
+
+programs.steam = {
+  enable = true;
+  gamescopeSession.enable = true;
+};
 
   virtualisation.docker.enable = true;
 
