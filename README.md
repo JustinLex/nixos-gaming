@@ -1,5 +1,8 @@
-# nixos-gaming
-NixOS configuration for my gaming computer
+# [ARCHIVED] nixos-gaming
+
+~~NixOS configuration for my gaming computer~~
+
+ARCHIVED: Moved to Codeberg: https://codeberg.org/jlh/nixos-media
 
 To apply configuration, run `sudo nixos-rebuild switch -I nixos-config=configuration.nix`
 
